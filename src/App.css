@@ -1,0 +1,91 @@
+.feature {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+/* landing page */
+/* Banner */
+/* email input */
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.emailinput {
+  min-height: 50px;
+  max-width: 150px;
+  padding: 0 1rem;
+  color: #fff;
+  font-size: 15px;
+  border: 1px solid #4b4888;
+  border-radius: 6px 0 0 6px;
+  background-color: transparent;
+}
+
+.emailbutton {
+  min-height: 50px;
+  padding: .5em 1em;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  background-color: #010336;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color .3s ease-in-out;
+}
+
+.emailbutton:hover {
+  background-color: #5e5dcd;
+}
+
+.emailinput:focus, .emailinput:focus-visible {
+  border-color: #3898EC;
+  outline: none;
+}
+/* scroll-landingpage */
+@keyframes appear {
+  from{
+    opacity: 0;
+    scale: 0.5;
+  }
+  to{
+    opacity: 1;
+    scale: 1;
+  }
+}
+.anim{
+  animation: appear linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+
+.spin {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Override zoom cursor */
+[data-rmiz-btn-unzoom],
+[data-rmiz-btn-zoom],
+[data-rmiz-content] img {
+  cursor: pointer !important;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari */
+}
