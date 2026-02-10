@@ -1,21 +1,17 @@
 import { Route,  Routes } from 'react-router-dom'
 import './App.css'
 import HeroSection from './landingPage/pages/HeroSection'
-import Features from './landingPage/components/Features'
 import About from './landingPage/pages/About'
 import Userhome from './user/pages/Userhome'
 import Preloader from './landingPage/pages/Preloader'
 import { useEffect, useState } from 'react'
-import Search from './user/components/Search'
 import Settings from './user/components/Settings'
 import Createpost from './user/components/Createpost'
 import Home from './user/components/Home'
 import Profile from './user/components/Profile'
-import Sidebar from './admin/components/Sidebar'
 import Mainlayout from './admin/components/Mainlayout'
 import Message from './user/components/Message'
 import Language from './user/pages/Language'
-import Pnf from './pages/pnf'
 import Dashboard from './admin/pages/Dashboard'
 import Billing from './admin/pages/Billing'
 import Reports from './admin/pages/Reports'
@@ -28,6 +24,7 @@ import EditProfile from './user/components/EditProfile'
 import Premium from './user/components/Premium'
 import PaymentSucess from './user/components/payment/PaymentSucess'
 import PaymentFailed from './user/components/payment/PaymentFailed'
+import PageNotFound from './pages/PageNotFound'
 
 
 function App() {
@@ -47,7 +44,7 @@ function App() {
     <Route path='/login' element={<Auth/>}/>
     <Route path='/register' element={ <Auth register/>}/>
     <Route path='/about' element={ <About/>}/>
-    <Route path='/*' element={<Pnf/>}/>
+    <Route path='/*' element={<PageNotFound/>}/>
    
 
   {/* user */}
