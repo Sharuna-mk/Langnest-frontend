@@ -520,7 +520,7 @@ function Profile() {
                                   <div>
                                     <div className="mt-5 px-10 text-black">
                                       <div className='mt-10'>
-                                        <input type="text" placeholder='Title' className='w-full border-b  border-gray-400 focus:outline-none'
+                                        <input type="text" placeholder='Title' className='w-full border-b  border-gray-400 focus:outline-none text-white'
                                           value={singlePost.title}
                                           onChange={(e) => { setSinglePost({ ...singlePost, title: e.target.value }) }} />
                                       </div>
@@ -528,7 +528,7 @@ function Profile() {
                                         <textarea
                                           value={singlePost.text}
                                           onChange={(e) => { setSinglePost({ ...singlePost, text: e.target.value }) }}
-                                          type="text" placeholder='Description' className='w-full h-20 border-b border-gray-400 focus:outline-none resize-none' >
+                                          type="text" placeholder='Description' className='w-full h-20 border-b border-gray-400 focus:outline-none resize-none text-white' >
                                         </textarea>
                                       </div>
                                       <div className="mt-5 px-5">
@@ -590,7 +590,7 @@ function Profile() {
               </div>
               <div className="mt-5 px-10">
                 <p className='font-semibold'><span>Title : {item.title}</span></p>
-                <p className='mt-5'>{item.text} </p></div>
+                <p className='mt-5 whitespace-pre-line'>{item.text} </p></div>
               <div className="mt-5 px-5">
                 <div className="flex gap-5 mt-5 px-5">
                   {

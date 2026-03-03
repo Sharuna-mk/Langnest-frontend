@@ -8,6 +8,7 @@ import SearchContextShare from './context/SearchContextShare.jsx'
 import ChatContextShare from './context/ChatContextShare.jsx'
 import ThemeContext from './context/ThemeContext.jsx'
 import { SocketProvider } from './context/SocketContext.jsx'
+import { NotificationProvider } from './context/NotificationContext.jsx'
 //import SocketContext from './context/SocketContext.jsx'
 
 
@@ -22,7 +23,9 @@ createRoot(document.getElementById('root')).render(
           <SocketProvider>
             <SearchContextShare>
               <ChatContextShare>
+                <NotificationProvider>
                 <App />
+                </NotificationProvider>
               </ChatContextShare>
             </SearchContextShare>
           </SocketProvider>

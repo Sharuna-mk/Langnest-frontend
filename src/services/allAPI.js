@@ -164,3 +164,25 @@ export const chartPieAPI = async ( reqHeader) => {
 export const chartLineAPI = async ( reqHeader) => {
     return await commonAPI('GET', `${baseURL}/api/chart-premium`, {}, reqHeader);
 };
+
+// 6. Notifications
+
+// Get all notifications
+export const getNotificationsAPI = async (reqHeader) => {
+    return await commonAPI(
+        'GET',
+        `${baseURL}/api/notifications`,
+        {},
+        reqHeader
+    );
+};
+
+// Mark all notifications as read
+export const markNotificationsReadAPI = async (reqHeader) => {
+    return await commonAPI(
+        'PUT',
+        `${baseURL}/api/notifications/read`,
+        {},
+        reqHeader
+    );
+};

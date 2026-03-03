@@ -25,6 +25,7 @@ import Premium from './user/components/Premium'
 import PaymentSucess from './user/components/payment/PaymentSucess'
 import PaymentFailed from './user/components/payment/PaymentFailed'
 import PageNotFound from './pages/PageNotFound'
+import Notification from './user/components/Notification'
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
    <Route index path=":language/feed"  element={ <Home />}/>
    <Route path="message" element={ <Message />}/>
    <Route path="premium" element={ <Premium />}/>
+   <Route path="notification" element={ <Notification />}/>
    <Route path="editProfile" element={ <EditProfile />}/>
    <Route path=":language/create-post" element={ <Createpost />}/>
    <Route path="profile" element={ <Profile />}/>

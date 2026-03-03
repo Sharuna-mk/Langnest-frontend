@@ -104,17 +104,23 @@ function Createpost() {
 
     }
     // image delete
-    const handleDelete = () => {
+  const handleDelete = () => {
+    setPreviewList((prev) => {
+        const updatedPreviewList = prev.slice(0, -1);
 
-        // array.pop() -mutates og array hence slice is used
-        setPreviewList((prev) => prev.slice(0, -1))
-
-        if (previewList.length == 1) {
-            setPreview("")
-            console.log(preview);
-
+        if (updatedPreviewList.length === 0) {
+            setPreview("");
         }
-    }
+
+        return updatedPreviewList;
+    });
+
+    setPostDetails((prev) => ({
+        ...prev,
+        uploadImages: prev.uploadImages.slice(0, -1)
+    }));
+};
+
 
     // add post
     const handlePost = async () => {
@@ -252,7 +258,7 @@ function Createpost() {
                                 </p>
                             )}
                             <div className='flex items-center justify-center mt-20'>
-                                <FaTrash className='text-2xl' onClick={() => handleDelete()} />
+                                <FaTrash className='text-2xl' onClick={(e) => handleDelete(e)} />
 
                                 <label htmlFor="imgFile">
                                     {/* select upto 3 images */}
