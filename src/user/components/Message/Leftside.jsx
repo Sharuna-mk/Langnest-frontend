@@ -123,7 +123,7 @@ function Leftside({ selectedChat, setSelectedChat }) {
   }, [socket]);
 
   return (
-    <div className={`bg-[#111928BF] h-full p-5 rounded-lg text-white ${selectedChat ? 'max-md:hidden' : ''}`}>
+    <div className={`dark:bg-[#111928BF] bg-gray-400 text-black  h-full p-5 rounded-lg dark:text-white ${selectedChat ? 'max-md:hidden' : ''}`}>
       <div className="pb-5">
         {/*<div className="flex justify-between items-center">
           <img src={logo} alt="" className='max-w-25' />
