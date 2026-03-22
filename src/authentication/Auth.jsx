@@ -38,32 +38,28 @@ function Auth({ register }) {
                         password: values.password,
                     });
 
-                    if (response.status === 200) {
+                    console.log("LOGIN RESPONSE:", response.data);
 
+                    if (response.status === 200) {
                         sessionStorage.setItem("token", response.data.token);
                         sessionStorage.setItem(
                             "userDetails",
                             JSON.stringify(response.data.existingUser)
                         );
 
+                        const role = response.data.existingUser.role?.toLowerCase();
 
-                        if (response.data.existingUser.role == 'Admin') {
-                             toast.success("Admin Login successful");
+                        if (role === "admin") {
+                            toast.success("Admin Login successful");
                             setTimeout(() => navigate("/admin"), 1000);
-                        }
-                        else {
-                            toast.success(response.data.message);
+                        } else {
+                            toast.success(response.data.message || "Login successful");
                             setTimeout(() => navigate("/language"), 1000);
-
                         }
                     }
-                    else {
-                        toast.error(response?.error?.message);
-                    }
-
                 } catch (error) {
-                    console.log(error);
-
+                    console.log("LOGIN ERROR:", error);
+                    toast.error(error?.response?.data || "Login failed");
                 }
             }
         }
