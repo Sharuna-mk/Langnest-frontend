@@ -1,5 +1,5 @@
 import React from 'react'
-import banner from '../../assets/banner.jpg'
+//import banner from '../../assets/banner.jpg'
 import { Link } from 'react-router-dom'
 
 function Banner() {
@@ -17,7 +17,7 @@ function Banner() {
 </div>
        
       </div>
-      <img src={banner} alt="Banner" className='mt-5' />
+      <img src='https://image2url.com/r2/default/images/1774181725050-50f50ee6-b80e-4e9c-83a6-e587f0303b01.png' alt="Banner" className='mt-5' />
                      </div>
      
        
