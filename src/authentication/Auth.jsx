@@ -8,7 +8,6 @@ import { useFormik } from 'formik'
 import { loginSchema, registerSchema } from './Validation';
 import logo from '../assets/logobg.png'
 function Auth({ register }) {
-    console.log(register);
 
     const { values, handleChange, handleBlur, handleSubmit, errors, touched } = useFormik({
         initialValues: {
@@ -17,6 +16,7 @@ function Auth({ register }) {
             password: "",
             confirmPassword: ""
         },
+
         validationSchema: register ? registerSchema : loginSchema,
         onSubmit: async (values) => {
             if (register) {
@@ -29,11 +29,9 @@ function Auth({ register }) {
                         setTimeout(() => navigate("/login"), 1500);
                     }
                 } catch (error) {
-                    toast.error("Registration failed");
+                    toast.error(error?.response?.data || "Registration failed");
                 }
-
-            }
-            else {
+            } else {
                 try {
                     const response = await loginUser({
                         email: values.email,
@@ -41,56 +39,26 @@ function Auth({ register }) {
                     });
 
                     if (response.status === 200) {
+
                         sessionStorage.setItem("token", response.data.token);
                         sessionStorage.setItem(
                             "userDetails",
                             JSON.stringify(response.data.existingUser)
                         );
 
-                        toast.success(response.data.message);
 
-                        setTimeout(() => navigate("/language"), 1000);
-                    }
-                } catch (error) {
-                    toast.error("Login failed");
-                }
-            }
-        }
-    })
+                        if (response.data.existingUser.role == 'Admin') {
+                             toast.success("Admin Login successful");
+                            setTimeout(() => navigate("/admin"), 1000);
+                        }
+                        else {
+                            toast.success(response.data.message);
+                            setTimeout(() => navigate("/language"), 1000);
 
-    const [userAuth, setUserAuth] = useState({
-
-    })
-    //const [confirmPassword, setConfirmPassword] = useState("")
-    const [token, setToken] = useState()
-    const navigate = useNavigate()
-    //register
-    const handleRegister = async () => {
-        console.log(userAuth);
-
-        if (!userAuth.username || !userAuth.email || !userAuth.password) {
-            toast.error('Please enter all fields', {
-                duration: 2000,
-            });
-        }
-        else {
-            if (userAuth.password === confirmPassword) {
-                try {
-
-                    const response = await registerUser(userAuth)
-                    console.log(response);
-                    if (response.status == 200) {
-                        toast.success(response.data.message, {
-                            duration: 2000,
-                        });
-                        setTimeout(() => {
-                            navigate("/login")
-                        }, 2000)
+                        }
                     }
                     else {
-                        toast.error(response.response.data, {
-                            duration: 2000
-                        })
+                        toast.error(response?.error?.message);
                     }
 
                 } catch (error) {
@@ -99,68 +67,111 @@ function Auth({ register }) {
                 }
             }
         }
+    })
+    console.log(values);
+    //const [userAuth, setUserAuth] = useState({
 
-    }
+    //})
+    //const [confirmPassword, setConfirmPassword] = useState("")
+    const [token, setToken] = useState()
+    const navigate = useNavigate()
+    //register
+    //const handleRegister = async () => {
+    //    console.log(userAuth);
 
-    //login
-    const handleLogin = async () => {
-        const { email, password } = userAuth
-        if (!email || !password) {
-            toast.error('Please enter all fields', {
-                duration: 2000,
-            });
-        }
-        else {
-            try {
-                const response = await loginUser({ email, password })
-                console.log(response);
+    //    if (!userAuth.username || !userAuth.email || !userAuth.password) {
+    //        toast.error('Please enter all fields', {
+    //            duration: 2000,
+    //        });
+    //    }
+    //    else {
+    //        if (userAuth.password === confirmPassword) {
+    //            try {
 
+    //                const response = await registerUser(userAuth)
+    //                console.log(response);
+    //                if (response.status == 200) {
+    //                    toast.success(response.data.message, {
+    //                        duration: 2000,
+    //                    });
+    //                    setTimeout(() => {
+    //                        navigate("/login")
+    //                    }, 2000)
+    //                }
+    //                else {
+    //                    toast.error(response.response.data, {
+    //                        duration: 2000
+    //                    })
+    //                }
 
+    //            } catch (error) {
+    //                console.log(error);
 
-                if (response.status == 200) {
-                    setToken(response.data.token)
-                    sessionStorage.setItem("token", response.data.token)
-                    sessionStorage.setItem("userDetails", JSON.stringify(response.data.existingUser))
-                    console.log("token set to session storage", token);
-                    toast.success(response.data.message, {
-                        duration: 2000,
-                    });
+    //            }
+    //        }
+    //    }
 
-                    if (response.data.existingUser.role === 'Admin') {
-                        setTimeout(() => {
-                            navigate("/admin")
-                        }, 1000)
-                    }
-                    else {
-                        const selectedLanguage = response.data.existingUser.selectedLanguage;
-                        if (selectedLanguage) {
-                            sessionStorage.setItem("selectedLanguage", selectedLanguage)
-                            setTimeout(() => {
-                                navigate(`/user/${selectedLanguage}/feed`)
-                            }, 1000)
-                        }
-                        else {
-                            setTimeout(() => {
-                                navigate("/language")
-                            }, 1000)
-                        }
-                    }
+    //}
 
-                }
-                else {
-                    toast.error(response.response.data, {
-                        duration: 2000
-                    })
-                }
-            }
-            catch (error) {
-                console.log(error);
-            }
+    ////login
+    //const handleLogin = async () => {
+    //    const { email, password } = userAuth
+    //    if (!email || !password) {
+    //        toast.error('Please enter all fields', {
+    //            duration: 2000,
+    //        });
+    //    }
+    //    else {
+    //        try {
+    //            const response = await loginUser({ email, password })
+    //            console.log(response);
 
 
-        }
 
-    }
+    //            if (response.status == 200) {
+    //                setToken(response.data.token)
+    //                sessionStorage.setItem("token", response.data.token)
+    //                sessionStorage.setItem("userDetails", JSON.stringify(response.data.existingUser))
+    //                console.log("token set to session storage", token);
+    //                toast.success(response.data.message, {
+    //                    duration: 2000,
+    //                });
+
+    //                if (response.data.existingUser.role === 'Admin') {
+    //                    setTimeout(() => {
+    //                        navigate("/admin")
+    //                    }, 1000)
+    //                }
+    //                else {
+    //                    const selectedLanguage = response.data.existingUser.selectedLanguage;
+    //                    if (selectedLanguage) {
+    //                        sessionStorage.setItem("selectedLanguage", selectedLanguage)
+    //                        setTimeout(() => {
+    //                            navigate(`/user/${selectedLanguage}/feed`)
+    //                        }, 1000)
+    //                    }
+    //                    else {
+    //                        setTimeout(() => {
+    //                            navigate("/language")
+    //                        }, 1000)
+    //                    }
+    //                }
+
+    //            }
+    //            else {
+    //                toast.error(response.response.data, {
+    //                    duration: 2000
+    //                })
+    //            }
+    //        }
+    //        catch (error) {
+    //            console.log(error);
+    //        }
+
+
+    //    }
+
+    //}
 
 
     //google authentication   
@@ -192,7 +203,7 @@ function Auth({ register }) {
                 <div className='feature md:mt-10 md:mb-25  p-10 '>
                     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4 ">
                         <div className="flex justify-center">
-                            <img src={logo} alt=""  className='w-25 h-25'/>
+                            <img src={logo} alt="" className='w-25 h-25' />
                         </div>
                         <div>
                             {register ? <h3 className='text-center text-xl font-bold'>Sign Up to LearnNest</h3>
@@ -203,7 +214,7 @@ function Auth({ register }) {
                         {
                             register && (
                                 <div>
-                                    
+
                                     <label htmlFor="" className='font-bold  text-start '>Username</label>
                                     <input type="text"
                                         name='username'
@@ -246,11 +257,11 @@ function Auth({ register }) {
                             //onChange={(e) => { setUserAuth({ ...userAuth, password: e.target.value }) }}
                             className='bg-gray-900 w-full text-gray-200 border-0 rounded-md p-2   focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150'
                             placeholder='enter your password' />
-                      <div className="min-h-[5px]">
-  {errors.password && touched.password && (
-    <p className="text-red-500 text-sm">{errors.password}</p>
-  )}
-</div>
+                        <div className="min-h-[5px]">
+                            {errors.password && touched.password && (
+                                <p className="text-red-500 text-sm">{errors.password}</p>
+                            )}
+                        </div>
                         {
                             register &&
                             <div>
@@ -265,11 +276,11 @@ function Auth({ register }) {
                                     placeholder='Password should match'
                                 //onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
-                              <div className="min-h-[2px]">
-  {errors.confirmPassword && touched.confirmPassword && (
-    <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
-  )}
-</div>
+                                <div className="min-h-[2px]">
+                                    {errors.confirmPassword && touched.confirmPassword && (
+                                        <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
+                                    )}
+                                </div>
                             </div>
                         }
                         {register ? <button type='submit' className='toast-button bg-green-700 w-full text-white font-bold text-center hover:bg-green-600 border-none rounded-lg h-10' >Sign up</button>

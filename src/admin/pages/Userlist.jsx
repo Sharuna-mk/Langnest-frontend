@@ -10,20 +10,23 @@ import { toast, Toaster } from 'sonner';
 
 function Userlist() {
 
-  const {searchKey,setSearchKey} = useContext(shareContext)
-  const tabs = ["All", "Pro", "Free"];
-  const Tablehead = ["Username", "Subscription", "Language", "Date",];
+  const { searchKey, setSearchKey } = useContext(shareContext)
   const [userData, setUserData] = useState([])
   const [token, setToken] = useState()
-  
-  const [currentPage,setCurrentPage] = useState(1)
+  const tabs = ["All", "Pro", "Free"];
+  const Tablehead = ["Username", "Subscription", "Language", "Date",];
+  const [activeTab, setActiveTab] = useState("All");
+  const [search, setSearch] = useState("");
+
+
+  const [currentPage, setCurrentPage] = useState(1)
   const recordsPerPage = 3
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const records = userData.slice(firstIndex,lastIndex);
-  const npage = Math.ceil(userData.length/recordsPerPage)
-   const[tempData,setTempData]= useState([])
- 
+  const records = userData.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(userData.length / recordsPerPage)
+  const [tempData, setTempData] = useState([])
+
   // all user
   const getUserList = async () => {
     try {
@@ -45,37 +48,37 @@ function Userlist() {
       const reqHeader = {
         Authorization: `Bearer ${token}`
       }
-      if(search.trim === ""){
-      getUserList()
+      if (search.trim === "") {
+        getUserList()
       }
-       const response = await adminSearchUserAPI(searchKey,reqHeader);
+      const response = await adminSearchUserAPI(searchKey, reqHeader);
       console.log(response);
       setUserData(response.data)
-      
+
     } catch (error) {
       console.log(error);
 
     }
   }
-  
-  const handleFilter = async(value)=>{
+
+  const handleFilter = async (value) => {
     console.log(tempData);
-    
+
     console.log(value);
-    if(value == 'Pro'){
-      console.log(tempData.filter(item =>(item.isPremium) == true));
-      setUserData(tempData.filter(item =>(item.isPremium) == true))
+    if (value == 'Pro') {
+      console.log(tempData.filter(item => (item.isPremium) == true));
+      setUserData(tempData.filter(item => (item.isPremium) == true))
     }
-    else if(value == 'Free'){
-      console.log(tempData.filter(item =>(item.isPremium) == false));
-      setUserData(tempData.filter(item =>(item.isPremium) == false))
+    else if (value == 'Free') {
+      console.log(tempData.filter(item => (item.isPremium) == false));
+      setUserData(tempData.filter(item => (item.isPremium) == false))
     }
-    else{
-       setUserData(tempData)  
+    else {
+      setUserData(tempData)
     }
   }
-  
-   const confirmDelete = (id) => {
+
+  const confirmDelete = (id) => {
     toast('Are you absolutely sure?', {
       description: 'This action cannot be undone.',
       action: {
@@ -89,18 +92,18 @@ function Userlist() {
     })
   }
 
-  const handleDelete = async(id)=>{
-      const reqHeader = {
-        Authorization: `Bearer ${token}`
-      }
+  const handleDelete = async (id) => {
+    const reqHeader = {
+      Authorization: `Bearer ${token}`
+    }
     try {
-      const result = await adminDeleteUserAPI(id,reqHeader)
+      const result = await adminDeleteUserAPI(id, reqHeader)
       console.log(result);
       setUserData(prev => prev.filter(item => item._id !== id))
-      
+
     } catch (error) {
       console.log(error);
-      
+
     }
   }
   useEffect(() => {
@@ -123,24 +126,15 @@ function Userlist() {
   }, [searchKey])
 
 
-  const [activeTab, setActiveTab] = useState("All");
-  const [search, setSearch] = useState("");
 
-  // filter rows based on search
-  const filteredRows = userData.filter(
-    (item) =>
-      item.isPremium === userData.isPremium
-    // ||
-    //  row.email.toLowerCase().includes(search.toLowerCase())
-  );
 
-  const handlePrev = ()=>{
-    if(currentPage !== firstIndex){
-      setCurrentPage(currentPage-1)
+  const handlePrev = () => {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1)
     }
   }
-  const handleNext = ()=>{
-      if(currentPage < lastIndex){
+  const handleNext = () => {
+    if (currentPage < lastIndex) {
       setCurrentPage(currentPage + 1)
     }
 
@@ -170,8 +164,8 @@ function Userlist() {
           {tabs.map((tab) => (
             <button
               key={tab}
-    
-              onClick={() =>{handleFilter(tab), setActiveTab(tab)}}
+
+              onClick={() => { handleFilter(tab), setActiveTab(tab) }}
               className={`px-3 py-1 rounded ${activeTab === tab ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 } text-md font-medium`}
             >
@@ -241,7 +235,7 @@ function Userlist() {
 
                 {/* Edit button */}
                 <td className="px-4 py-3">
-                  <button className="text-red-500 hover:text-red-700" onClick={()=>{confirmDelete(user._id)}}>
+                  <button className="text-red-500 hover:text-red-700" onClick={() => { confirmDelete(user._id) }}>
                     <MdDelete className="h-5 w-5" />
                   </button>
                 </td>
@@ -264,18 +258,18 @@ function Userlist() {
         <span className="text-gray-600">Page {currentPage} of {npage}</span>
         <div className="flex gap-2">
           <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
-          onClick={handlePrev}
-           disabled={currentPage === 1}
+            onClick={handlePrev}
+            disabled={currentPage === 1}
           >Previous</button>
           <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-50"
-          disabled={currentPage === npage || npage === 0}
-          onClick={handleNext}
+            disabled={currentPage === npage || npage === 0}
+            onClick={handleNext}
           >Next</button>
         </div>
       </div>
-            <Toaster position="top-center" richColors />
+      <Toaster position="top-center" richColors />
     </div>
-    
+
   );
 }
 

@@ -100,6 +100,11 @@ function Settings() {
     }
   }
 
+  const handleLogout = async()=>{
+    sessionStorage.clear()
+    navigate('/')
+  }
+
   useEffect(() => {
     const userToken = sessionStorage.getItem("token")
     const userDetails = sessionStorage.getItem("userDetails")
@@ -319,14 +324,14 @@ function Settings() {
               </div>
             </div>
           </div>
-          <Link to='/'>
-            <div className="feature  mt-10  w-200 p-5 cursor-pointer bg-white dark:bg-[#111928BF]" >
+         
+            <div className="feature  mt-10  w-200 p-5 cursor-pointer bg-white dark:bg-[#111928BF]" onClick={handleLogout} >
 
               <p className='rounded-sm text-red-500'
               >Logout</p>
 
             </div>
-          </Link>
+         
           <div className="feature  mt-5  w-200 p-5 cursor-pointer bg-white dark:bg-[#111928BF]">
 
 
